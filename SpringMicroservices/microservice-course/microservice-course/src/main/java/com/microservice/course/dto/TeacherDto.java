@@ -1,7 +1,7 @@
 package com.microservice.course.dto;
 
 
-import com.microservice.course.entities.Course;
+
 import lombok.*;
 
 import java.util.List;
