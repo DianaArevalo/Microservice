@@ -22,4 +22,8 @@ spring:
           uri: http://localhost:9090
           predicates:
             - Path=/api/courses/**
+        - id: teachers
+          uri: http://localhost:8082
+          predicates:
+              - Path=/api/teacher/**
 

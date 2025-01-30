@@ -1,12 +1,12 @@
 server:
-  port: 8090
+  port: 8082
 
 spring:
   application:
-    name: msvc-student
+    name: msvc-teacher
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/studentDb
+    url: jdbc:mysql://localhost:3306/teacherDb
     username: root
     password: 96070306570Da*.*
   jpa:
@@ -21,4 +21,3 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka
-

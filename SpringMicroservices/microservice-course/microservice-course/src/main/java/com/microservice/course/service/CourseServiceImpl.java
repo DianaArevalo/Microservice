@@ -1,9 +1,12 @@
 package com.microservice.course.service;
 
 import com.microservice.course.client.StudentClient;
+import com.microservice.course.client.TeacherClient;
 import com.microservice.course.dto.StudentDto;
+import com.microservice.course.dto.TeacherDto;
 import com.microservice.course.entities.Course;
 import com.microservice.course.http.response.StudentByCourseResponse;
+import com.microservice.course.http.response.TeacherByCourseResponse;
 import com.microservice.course.persistence.ICourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,6 +22,9 @@ public class CourseServiceImpl implements ICourseService {
 
     @Autowired
     private StudentClient studentClient;
+
+    @Autowired
+    private TeacherClient teacherClient;
 
     @Override
     public List<Course> findAll() {
@@ -37,17 +43,38 @@ public class CourseServiceImpl implements ICourseService {
 
     @Override
     public StudentByCourseResponse findStudentsByIdCourse(Long idCourse) {
-       //consultar el curso
-
         Course course = courseRepository.findById(idCourse).orElse(new Course());
-
-        //obtener los estudiantyes
         List<StudentDto> studentDtoList = studentClient.findAllStudentByCourse(idCourse);
+
 
         return StudentByCourseResponse.builder()
                 .courseName(course.getName())
-                .teacher(course.getTeacher())
+              //  .teacher()
                 .studentDtoList(studentDtoList)
                 .build();
     }
-}
+
+    @Override
+    public TeacherByCourseResponse findTeachersByIdCourse(Long idCourse) {
+
+        //consultar el curso
+        Course course = courseRepository.findById(idCourse).orElseThrow(() ->
+                new RuntimeException("Course not found with id" + idCourse)
+        );
+
+//        //llamar al cliente de Feign para obtener los datos del profesor
+       TeacherDto teacherDto = (TeacherDto) teacherClient.findTeachersByIdCourse(idCourse);
+//
+//
+        return TeacherByCourseResponse.builder()
+                .courseName(course.getName())
+                .teacherDto(teacherDto)
+                .id(teacherDto)
+                .build();
+    }
+
+
+    }
+
+
+
